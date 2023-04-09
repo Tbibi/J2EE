@@ -27,12 +27,14 @@ public class Tp2Application  implements CommandLineRunner {
             patientrepository.save(new Patient(null,"Moha",new Date(),false,210));
             patientrepository.save(new Patient(null,"Ghita",new Date(),true,90));
         }
-        Page<Patient> patients = patientrepository.findAll(PageRequest.of(3,3));
+        Page<Patient> patients = patientrepository.findAll(PageRequest.of(1,3));
         System.out.println("Total pages: "+patients.getTotalPages());
         System.out.println("Total elements: "+patients.getTotalElements());
         System.out.println("num page:"+patients.getNumber());
         List<Patient> content = patients.getContent();
-        content.forEach(p->{
+        Page<Patient> byMalade = patientrepository.findByMalade(true,PageRequest.of(0,4));
+        //List<Patient> patient1=patientrepository.chercherPatients("%h%",300);
+        byMalade.forEach(p->{
             System.out.println("+++++++++++++++++++++++++++++++++++++++++++++");
             System.out.println(p.getId());
             System.out.println(p.getNom());
@@ -42,6 +44,7 @@ public class Tp2Application  implements CommandLineRunner {
         });
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++++");
         Patient patient=patientrepository.findById(3L).orElse(null);
+
         if(patient!=null){
             System.out.println(patient.getNom());
             System.out.println(patient.isMalade());
